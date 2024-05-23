@@ -10,8 +10,21 @@ namespace SokobanGame
         public int currentScore { get; set; } = 0;
         public int targetScore { get; set; } = 0;
 
+        public string startStage { get; } = "Map.txt";
+        public string endStage { get; } = "Stage.txt";
+        public string curStage { get; set; }
+
+
         // 게임이 클리어 됐는지 확인하는 변수.
         public bool IsGameClear
+        {
+            get
+            {
+                return curStage == endStage && IsNextGame;
+            }
+        }
+
+        public bool IsNextGame
         {
             get
             {

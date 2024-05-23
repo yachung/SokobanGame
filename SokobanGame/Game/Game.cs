@@ -8,11 +8,12 @@ namespace SokobanGame
     {
         // 메인 씬 변수
         private Scene scene;
+        private string mainSceneName = "Map.txt";
 
         // 생성자
         public Game()
         {
-            scene = new Scene("Map.txt");
+            scene = new Scene(mainSceneName);
         }
 
         // 실행 메소드(인터페이스)
@@ -29,8 +30,6 @@ namespace SokobanGame
             // 패턴 - 게임 루프 패턴
             while (true)
             {
-                // 입력 처리 (방향키 입력을 처리)
-
                 // 화면 정리 (화면 지우기).
                 ResetScreen();
 
@@ -48,8 +47,6 @@ namespace SokobanGame
             // 콘솔 화면에 출력되는 글자 색상을 초기화.
             Console.ForegroundColor = ConsoleColor.White;
 
-            // 콘솔 화면 지우기.
-            // Console.Clear();
             // 콘솔 화면의 커서 위치를 0, 0으로 설정
             Console.SetCursorPosition(0, 0);
         }
@@ -69,6 +66,12 @@ namespace SokobanGame
                 Environment.Exit(0);
             }
 
+            // R로 재시작하는 기능
+            if (key == ConsoleKey.R)
+            {
+                scene = new Scene(mainSceneName);
+            }
+
             // 씬 업데이트
             scene.Update(key);
         }
@@ -77,8 +80,6 @@ namespace SokobanGame
         // 그리기 -> Draw / Render
         private void Draw()
         {
-            //Console.ForegroundColor = ConsoleColor.Green;
-            //Console.WriteLine("장면 그리기");
             scene.Draw();
         }
     }

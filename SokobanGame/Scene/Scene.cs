@@ -32,8 +32,6 @@ namespace SokobanGame
         private void Load(string fileName)
         {
             // 맵 파일을 전체 문자열로 읽어서 저장
-            //mapData = File.ReadAllText(fileName);
-            //mapData = File.ReadAllLines(fileName);
             string[] lines = File.ReadAllLines(fileName);
 
             //foreach (string line in lines)
@@ -79,12 +77,15 @@ namespace SokobanGame
                             // 나중에 박스가 이동했을 때 길이 그려질 수 있도록
                             gameObjects.Add(new Ground(position));
                             break;
-                        //default:
-                        //    mapData.Add(c);
-                        //    break;
                     }
                 }
             }
+        }
+
+        public enum StageName
+        {
+            Map,
+            Stage
         }
 
         // Update 메소드
@@ -99,6 +100,15 @@ namespace SokobanGame
             // 게임이 클리어 됐는지 확인하고, 클리어라면 업데이트 진행 안함.
             if (gameManager.IsGameClear)
                 return;
+
+            if (gameManager.IsNextGame)
+            {
+                // 레벨 로드
+                Load("Stage.txt");
+
+                // 게임 관리자 객체 생성
+                gameManager = new GameManager(targets.Count);
+            }
 
             // 플레이어 업데이트
             player.Update(key);
@@ -141,9 +151,11 @@ namespace SokobanGame
 
             // x로 15칸, y로는 0칸 커서 이동
             Console.SetCursorPosition(15, 0);
-
             // 메뉴 문자 출력
             Console.Write("게임을 종료하려면 Q키(또는 ESC)를 누르세요.");
+
+            Console.SetCursorPosition(15, 3);
+            Console.Write($"게임을 재시작 하려면 R키를 누르세요.");
             
             Console.SetCursorPosition(15, 14);
             Console.Write($"targetScore : {gameManager.targetScore}");
